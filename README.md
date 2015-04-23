@@ -67,7 +67,7 @@ Validate all parameters in validation method.  `addError($name, $message)` with 
 `Ray\Validation\Exception\InvalidArgumentException` thrown on validation failed, But if `@OnFailure` annoted method exists, The result of `@OnFailure` method returns instead of original. 
 
 ```php
-use Ray\Validation\Annotation\onFailure;
+use Ray\Validation\Annotation\OnFailure;
 // ...
 
     /**
