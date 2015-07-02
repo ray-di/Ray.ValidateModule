@@ -1,8 +1,8 @@
 <?php
 
-require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
-
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Ray\Di\Injector;
+use Ray\Validation\Annotation\OnValidate;
 use Ray\Validation\Annotation\Valid;
 use Ray\Validation\Exception\InvalidArgumentException;
 use Ray\Validation\ValidateModule;
@@ -17,6 +17,12 @@ class Fake
     {
     }
 
+    /**
+     * @param $name
+     *
+     * @return Validation
+     * @OnValidate()
+     */
     public function onValidateFoo($name)
     {
         $validation = new Validation;
@@ -28,10 +34,14 @@ class Fake
     }
 }
 
+$loader = require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
+/* @var $loader \Composer\Autoload\ClassLoader */
+AnnotationRegistry::registerLoader([$loader, 'loadClass']);
+
 $fake = (new Injector(new ValidateModule))->getInstance(Fake::class);
 try {
     $fake->foo(0);
-} catch (Exception $e) {
-    $works = $e instanceof InvalidArgumentException;
+} catch (InvalidArgumentException $e) {
+    $works = true;
 }
-echo($works ? 'It works!' : 'It DOES NOT work!') . PHP_EOL;
+echo(isset($works) ? 'It works!' : 'It DOES NOT work!') . PHP_EOL;

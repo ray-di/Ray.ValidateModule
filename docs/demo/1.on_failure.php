@@ -1,8 +1,9 @@
 <?php
 
-require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
-
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Ray\Di\Injector;
+use Ray\Validation\Annotation\OnFailure;
+use Ray\Validation\Annotation\OnValidate;
 use Ray\Validation\Annotation\Valid;
 use Ray\Validation\FailureInterface;
 use Ray\Validation\ValidateModule;
@@ -25,6 +26,12 @@ class Fake
         echo "post {$name}" . PHP_EOL;
     }
 
+    /**
+     * @param $name
+     *
+     * @return Validation
+     * @OnValidate
+     */
     public function onValidateOnPost($name)
     {
         $validation = new Validation;
@@ -35,6 +42,11 @@ class Fake
         return $validation;
     }
 
+    /**
+     * @param FailureInterface $failure
+     *
+     * @OnFailure
+     */
     public function onInvalidOnPost(FailureInterface $failure)
     {
         foreach ($failure->getMessages() as $name => $messages) {
@@ -46,6 +58,10 @@ class Fake
         $this->onGet();
     }
 }
+
+$loader = require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
+/* @var $loader \Composer\Autoload\ClassLoader */
+AnnotationRegistry::registerLoader([$loader, 'loadClass']);
 
 /* @var $fake Fake */
 $fake = (new Injector(new ValidateModule))->getInstance(Fake::class);
@@ -59,7 +75,7 @@ echo 'valid post:' . PHP_EOL;
 $fake->onPost('sunday');
 $ob = ob_get_clean();
 
-$expected = <<< EOM
+$expected = <<< EOT
 show form first:
 please input <form><input type="text" name="name" value=""></form>
 invalid post:
@@ -68,7 +84,7 @@ please input <form><input type="text" name="name" value="999"></form>
 valid post:
 post sunday
 
-EOM;
+EOT;
 
 $works = $ob === $expected;
 echo($works ? 'It works!' : 'It DOES NOT work!') . PHP_EOL;
