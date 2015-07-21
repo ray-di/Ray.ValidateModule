@@ -1,14 +1,15 @@
 <?php
 
-require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
-
 use Ray\Di\Injector;
+use Ray\Validation\Annotation\OnValidate;
 use Ray\Validation\Annotation\Valid;
 use Ray\Validation\Exception\InvalidArgumentException;
 use Ray\Validation\ValidateModule;
 use Ray\Validation\Validation;
 
-class Fake
+require __DIR__ . '/autoload.php';
+
+class Fake0
 {
     /**
      * @Valid
@@ -17,6 +18,12 @@ class Fake
     {
     }
 
+    /**
+     * @param $name
+     *
+     * @return Validation
+     * @OnValidate()
+     */
     public function onValidateFoo($name)
     {
         $validation = new Validation;
@@ -28,10 +35,10 @@ class Fake
     }
 }
 
-$fake = (new Injector(new ValidateModule))->getInstance(Fake::class);
+$fake = (new Injector(new ValidateModule))->getInstance(Fake0::class);
 try {
     $fake->foo(0);
-} catch (Exception $e) {
-    $works = $e instanceof InvalidArgumentException;
+} catch (InvalidArgumentException $e) {
+    $works = true;
 }
-echo($works ? 'It works!' : 'It DOES NOT work!') . PHP_EOL;
+echo(isset($works) ? 'It works!' : 'It DOES NOT work!') . PHP_EOL;
