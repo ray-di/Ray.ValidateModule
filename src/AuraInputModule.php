@@ -24,7 +24,7 @@ class AuraInputModule extends AbstractModule
         $this->install(new ValidateModule);
         $this->bind(BuilderInterface::class)->to(Builder::class);
         $this->bind(Filter::class)->toProvider(FilterProvider::class);
-        $this->bind(FilterInterface::class)
+        $this->bind(FilterInterface::class)->to(Filter::class);
         $this->bind(ValueFilter::class)->toProvider(ValueFilterProvider::class);
         $this->bind(SubjectFilter::class)->toProvider(SubjectFilterProvider::class);
     }

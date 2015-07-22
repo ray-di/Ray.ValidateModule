@@ -16,6 +16,6 @@ class FilterProvider implements ProviderInterface
      */
     public function get()
     {
-        return (new FilterFactory())->newFilter();
+        return (new FilterFactory)->newValueFilter();
     }
 }
