@@ -140,8 +140,12 @@ class ValidateInterceptor implements MethodInterceptor
         $onValidateMethod = $onFailureMethod = null;
         foreach ($class->getMethods() as $method) {
             $annotations = $this->reader->getMethodAnnotations($method);
-            list($onValidateMethod, $onFailureMethod) = $this->scanAnnotation($valid, $annotations, $method,
-                $onValidateMethod, $onFailureMethod
+            list($onValidateMethod, $onFailureMethod) = $this->scanAnnotation(
+                $valid,
+                $annotations,
+                $method,
+                $onValidateMethod,
+                $onFailureMethod
             );
         }
 

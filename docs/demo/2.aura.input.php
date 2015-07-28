@@ -2,18 +2,14 @@
 
 namespace Ray\Validation;
 
-use Aura\Html\HelperLocator;
-use Aura\Html\HelperLocatorFactory;
 use Aura\Input\Filter;
 use Aura\Input\Form;
 use Ray\Di\Injector;
-use Ray\Validation\Annotation\OnFailure;
-use Ray\Validation\Annotation\OnValidate;
-use Ray\Validation\Annotation\Valid;
+use Ray\Validation\Annotation\AuraInput;
 
 require __DIR__ . '/autoload.php';
 
-class ContactForm extends Form
+class Fake3Form extends AbstractAuraForm
 {
     public function init()
     {
@@ -36,19 +32,16 @@ class ContactForm extends Form
     }
 
     /**
-     * @param FailureInterface $failure
-     *
-     * @OnFailure
+     * {@inheritdoc}
      */
     public function __toString()
     {
-        /** @var $formHelper \Aura\Html\Helper\Form */
-        $helper = (new HelperLocatorFactory)->newInstance();
-        $form = $helper->form();
-        $form .= $helper->form($this->form->get('name'));
-        $message = $this->form->getFilter()->getMessages('name');
-        $form .= implode(',', $message);
-        $form .= $helper->tag('/form');
+        $form = $this->helper->form();
+        $name = $this->get('name');
+        $form .= $this->helper->form($name);
+        $errorMessage = $this->getFilter()->getMessages('name');
+        $form .= implode(',', $errorMessage);
+        $form .= $this->helper->tag('/form');
 
         return $form;
     }
@@ -56,60 +49,29 @@ class ContactForm extends Form
 
 class Fake3
 {
-    /**
-     * @var Filter
-     */
-    private $filer;
+    use AuraInputTrait;
 
-    /**
-     * @var ContactForm
-     */
-    private $form;
-
-
-    public function __construct(ContactForm $form)
-    {
-        $this->form = $form;
-    }
+    public $view = [];
 
     public function onGet()
     {
-        $this['form'] = (string) $this->form;
+        $this->view['form'] = $this->form;
+
+        return $this;
     }
 
     /**
-     * @Valid
+     * @AuraInput(onFailure="onFailure")
      */
     public function onPost($name)
     {
         return $name;
     }
 
-    /**
-     * @param $name
-     *
-     * @return Validation
-     * @OnValidate
-     */
-    public function onValidateOnPost($name)
+    public function onFailure($name)
     {
-        $this->form->fill(compact('name'));
-        $isValid = $this->form->filter();
-        $validation = new Validation;
-        if ($isValid) {
-            return $validation;
-        }
-        $messages = $this->form->getFilter()->getMessages();
-        $validation->addErrors($messages);
-
-        return $validation;
+        return $this->onGet();
     }
-
-    public function onInvalidOnPost(FailureInterface $failure)
-    {
-        $this['form'] = (string) $this->form;
-    }
-
 }
 
 /* @var $fake Fake3 */
@@ -120,15 +82,5 @@ try {
     exit;
 }
 $result = $fake->onPost(1);
-$expected = [
-    [
-        'name' =>
-            [
-                'First name must be alphabetic only.',
-            ],
-    ],
-    [
-        1
-    ],
-];
-echo($result === $expected ? 'It works!' : 'It DOES NOT work!') . PHP_EOL;
+$expected = '<form method="post" enctype="multipart/form-data"><form method="post" enctype="multipart/form-data" type="text" name="contact[name]" attribs="name   20 20" options="" value="1">First name must be alphabetic only.</form>';
+echo((string) $result->view['form'] === $expected ? 'It works!' : 'It DOES NOT work!') . PHP_EOL;
