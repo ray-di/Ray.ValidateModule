@@ -31,7 +31,6 @@ class AuraInputModule extends AbstractModule
         $this->bind(ValueFilter::class)->toProvider(ValueFilterProvider::class);
         $this->bind(SubjectFilter::class)->toProvider(SubjectFilterProvider::class);
         $this->bind(HelperLocatorFactory::class);
-        $this->bind(Form::class)->to(Fake3Form::class);
         $this->bindInterceptor(
             $this->matcher->any(),
             $this->matcher->annotatedWith(AuraInput::class),

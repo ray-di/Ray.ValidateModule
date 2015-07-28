@@ -17,16 +17,6 @@ trait AuraInputTrait
     private $form;
 
     /**
-     * @param Fake3Form $form
-     *
-     * @Inject()
-     */
-    public function setForm(Form $form)
-    {
-        $this->form = $form;
-    }
-
-    /**
      * @param array $submit
      *
      * @return bool

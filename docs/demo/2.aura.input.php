@@ -4,6 +4,9 @@ namespace Ray\Validation;
 
 use Aura\Input\Filter;
 use Aura\Input\Form;
+use Ray\Di\AbstractModule;
+use Ray\Di\Di\Inject;
+use Ray\Di\Di\Named;
 use Ray\Di\Injector;
 use Ray\Validation\Annotation\AuraInput;
 
@@ -53,6 +56,17 @@ class Fake3
 
     public $view = [];
 
+    /**
+     * @param Fake3Form $form
+     *
+     * @Inject()
+     * @Named("form3")
+     */
+    public function setForm(Form $form)
+    {
+        $this->form = $form;
+    }
+
     public function onGet()
     {
         $this->view['form'] = $this->form;
@@ -74,9 +88,18 @@ class Fake3
     }
 }
 
+class MyModule extends AbstractModule
+{
+    protected function configure()
+    {
+        $this->install(new AuraInputModule);
+        $this->bind(Form::class)->annotatedWith('form3')->to(Fake3Form::class);
+    }
+}
+
 /* @var $fake Fake3 */
 try {
-    $fake = (new Injector(new AuraInputModule))->getInstance(Fake3::class);
+    $fake = (new Injector(new MyModule))->getInstance(Fake3::class);
 } catch (\Exception $e) {
     echo $e;
     exit;
