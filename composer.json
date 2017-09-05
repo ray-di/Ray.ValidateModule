@@ -22,5 +22,8 @@
             "Ray\\Validation\\": "tests/",
             "Ray\\Validation\\": "tests/Fake"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.6"
     }
 }
