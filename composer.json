@@ -8,7 +8,7 @@
     "require": {
         "ray/di": "~2.0"
     },
-    "license": "BSD-3-Clause",
+    "license": "MIT",
     "autoload":{
         "psr-4":{
             "Ray\\Validation\\": "src/"
