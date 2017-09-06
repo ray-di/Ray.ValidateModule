@@ -3,7 +3,7 @@
     "description":"Validation module for Ray.Di",
     "keywords":[
         "validation",
-        "Ray.Di module"
+        "Ray.Di"
     ],
     "require": {
         "ray/di": "^2.0",
