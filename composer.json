@@ -12,7 +12,8 @@
     "autoload":{
         "psr-4":{
             "Ray\\Validation\\": "src/"
-        }
+        },
+        "exclude-from-classmap": ["tests/Fake"]
     },
     "autoload-dev":{
         "psr-4":{
