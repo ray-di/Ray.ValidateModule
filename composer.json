@@ -16,8 +16,7 @@
     },
     "autoload-dev":{
         "psr-4":{
-            "Ray\\Validation\\": "tests/",
-            "Ray\\Validation\\": "tests/Fake"
+            "Ray\\Validation\\": ["tests/", "tests/Fake"]
         }
     },
     "require-dev": {
