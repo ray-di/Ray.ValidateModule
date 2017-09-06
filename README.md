@@ -121,9 +121,3 @@ use Ray\Validation\Annotation\OnInvalid;
 
     $ php docs/demo/run.php
     // It works!
-
-### Requirements
-
- * PHP 5.4+
- * hhvm
-
