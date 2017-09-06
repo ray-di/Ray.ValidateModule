@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * This file is part of the Ray.ValidateModule package.
+ *
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 use Ray\Di\Injector;
 use Ray\Validation\Annotation\OnFailure;
 use Ray\Validation\Annotation\OnValidate;
@@ -32,7 +36,7 @@ class Fake1
     public function onValidateOnPost($name)
     {
         $validation = new Validation;
-        if (!is_string($name)) {
+        if (! is_string($name)) {
             $validation->addError('name', 'name should be string.');
         }
 

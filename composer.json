@@ -3,27 +3,25 @@
     "description":"Validation module for Ray.Di",
     "keywords":[
         "validation",
-        "Ray.Di module"
+        "Ray.Di"
     ],
     "require": {
-        "ray/di": "~2.0",
-        "foa/filter-input-bundle": "~1.1@dev",
-        "aura/filter": "~2.0@dev",
-        "aura/html": "^2.4"
+        "ray/di": "^2.0",
+        "nikic/php-parser": "^1.3"
     },
-    "license": "BSD-3-Clause",
+    "license": "MIT",
     "autoload":{
         "psr-4":{
             "Ray\\Validation\\": "src/"
-        }
+        },
+        "exclude-from-classmap": ["tests/Fake"]
     },
     "autoload-dev":{
         "psr-4":{
-            "Ray\\Validation\\": "tests/",
-            "Ray\\Validation\\": "tests/Fake"
+            "Ray\\Validation\\": ["tests/", "tests/Fake"]
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.6"
+        "phpunit/phpunit": "^4.8"
     }
 }

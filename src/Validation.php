@@ -1,8 +1,8 @@
 <?php
 /**
- * This file is part of the Ray.ValidateModule package
+ * This file is part of the Ray.ValidateModule package.
  *
- * @license http://opensource.org/licenses/bsd-license.php BSD
+ * @license http://opensource.org/licenses/MIT MIT
  */
 namespace Ray\Validation;
 
@@ -37,14 +37,6 @@ class Validation implements ValidationInterface
     public function addError($name, $message)
     {
         $this->failure[$name][] = $message;
-    }
-
-    /**
-     * @param array $message
-     */
-    public function addErrors(array $message)
-    {
-        $this->failure = $message;
     }
 
     /**
