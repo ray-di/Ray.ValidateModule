@@ -40,14 +40,6 @@ class Validation implements ValidationInterface
     }
 
     /**
-     * @param array $message
-     */
-    public function addErrors(array $message)
-    {
-        $this->failure = $message;
-    }
-
-    /**
      * @return array
      */
     public function getMessages()
