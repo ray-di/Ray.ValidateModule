@@ -1,8 +1,8 @@
 <?php
 /**
- * This file is part of the Ray.ValidateModule package
+ * This file is part of the Ray.ValidateModule package.
  *
- * @license http://opensource.org/licenses/bsd-license.php BSD
+ * @license http://opensource.org/licenses/MIT MIT
  */
 namespace Ray\Validation;
 
@@ -72,9 +72,9 @@ class ValidateInterceptor implements MethodInterceptor
      * @param \ReflectionMethod $onValidate
      * @param \ReflectionMethod $onFailure
      *
-     * @return bool|mixed|InvalidArgumentException
-     *
      * @throws \Exception
+     *
+     * @return bool|mixed|InvalidArgumentException
      */
     private function validate(MethodInvocation $invocation, \ReflectionMethod $onValidate, \ReflectionMethod $onFailure = null)
     {
@@ -124,7 +124,7 @@ class ValidateInterceptor implements MethodInterceptor
         $class = new \ReflectionClass($invocation->getThis());
         $className = $class->implementsInterface(WeavedInterface::class) ? $class->getParentClass()->name : $class->name;
         $errors = json_encode($failure->getMessages());
-        $msg = sprintf("%s::%s() %s", $className, $invocation->getMethod()->name, $errors);
+        $msg = sprintf('%s::%s() %s', $className, $invocation->getMethod()->name, $errors);
 
         return new InvalidArgumentException($msg, 400);
     }
@@ -140,8 +140,12 @@ class ValidateInterceptor implements MethodInterceptor
         $onValidateMethod = $onFailureMethod = null;
         foreach ($class->getMethods() as $method) {
             $annotations = $this->reader->getMethodAnnotations($method);
-            list($onValidateMethod, $onFailureMethod) = $this->scanAnnotation($valid, $annotations, $method,
-                $onValidateMethod, $onFailureMethod
+            list($onValidateMethod, $onFailureMethod) = $this->scanAnnotation(
+                $valid,
+                $annotations,
+                $method,
+                $onValidateMethod,
+                $onFailureMethod
             );
         }
 
@@ -173,7 +177,7 @@ class ValidateInterceptor implements MethodInterceptor
             }
         }
 
-        return [$onValidateMethod ,$onFailureMethod];
+        return [$onValidateMethod, $onFailureMethod];
     }
 
     /**

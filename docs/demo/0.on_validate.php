@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * This file is part of the Ray.ValidateModule package.
+ *
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 use Ray\Di\Injector;
 use Ray\Validation\Annotation\OnValidate;
 use Ray\Validation\Annotation\Valid;
