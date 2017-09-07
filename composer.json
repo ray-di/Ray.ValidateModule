@@ -6,6 +6,7 @@
         "Ray.Di"
     ],
     "require": {
+        "php": ">=5.5.0",
         "ray/di": "^2.0",
         "nikic/php-parser": "^1.3"
     },
